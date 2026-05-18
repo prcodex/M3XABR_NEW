@@ -52,9 +52,9 @@ all = [
 m3xabr = "m3xabr_core.cli:app"
 
 [project.urls]
-Homepage = "https://github.com/your-username/m3xabr-core"
-Documentation = "https://github.com/your-username/m3xabr-core#readme"
-Issues = "https://github.com/your-username/m3xabr-core/issues"
+Homepage = "https://github.com/prcodex/M3XABR_NEW"
+Documentation = "https://github.com/prcodex/M3XABR_NEW#readme"
+Issues = "https://github.com/prcodex/M3XABR_NEW/issues"
 
 [tool.setuptools.packages.find]
 include = ["m3xabr_core*"]
