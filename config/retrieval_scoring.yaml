@@ -1,0 +1,54 @@
+# Retrieval scoring config
+#
+# Multi-factor weighted scoring for the retriever (Actor 4).
+# The simplified v0 uses only vector similarity + freshness.
+# The full M3xA production scoring (documented in ARCHITECTURE.md)
+# includes entity boost, source tier, and M/G scores —
+# implementable by extending the Retriever class.
+
+version: 0.1
+domain: brazil
+
+# Vector similarity component (cosine distance, normalized to 0-1)
+vector_weight: 0.7
+
+# Freshness component
+# Uses exponential decay: weight = exp(-age_days * decay_rate)
+freshness:
+  weight: 0.3
+  decay_rate: 0.05  # ~14-day half-life; older content decays
+                    # but doesn't disappear
+
+# Top-K by query type
+# Smaller K for simple info queries; larger for synthesis
+topk:
+  info: 30
+  analysis: 60
+  comparison: 80
+  release: 40
+  forecast: 50
+  drift: 80
+  off_scope: 10  # for off-scope, retrieve minimally; agent will decline
+
+# Domain filter — applied at LanceDB query level
+domain_filter: "domain = 'brazil'"
+
+# has_vector discipline (any row with embedding must explicitly say so)
+has_vector_filter: "has_vector = 1.0"
+
+# Hybrid mode flag — set true if your vector DB supports BM25 + vector
+# Default off for v0 simplicity
+hybrid_mode: false
+
+# Embedding model
+embedding:
+  provider: voyage  # or openai, cohere
+  model: voyage-3-large
+  dimension: 2048
+
+# LLM models per actor
+models:
+  classifier: claude-haiku-4-5
+  router: claude-haiku-4-5
+  synthesizer: claude-sonnet-4-7  # latest Sonnet
+  evaluator: claude-haiku-4-5

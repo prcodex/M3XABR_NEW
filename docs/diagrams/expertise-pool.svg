@@ -1,0 +1,89 @@
+<svg width="680" viewBox="0 0 680 770" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+<title id="title">M3xABR-core expertise pool</title>
+<desc id="desc">Two always-loaded files (kernel and Brazil scope filter), and nine conditional expertises grouped into a four-way macro split (monetary, fiscal, economic releases, economic forecasts) plus five other expertises (electoral, political, markets, source briefing, drift detection).</desc>
+<style>
+  text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; fill: #111; }
+  .th { font-size: 14px; font-weight: 600; }
+  .ts { font-size: 12px; fill: #555; }
+  .purple rect { fill: #ede9fe; stroke: #8b5cf6; }
+  .teal rect { fill: #ccfbf1; stroke: #14b8a6; }
+  .card rect { fill: #ffffff; stroke: #14b8a6; }
+  .card-purple rect { fill: #ffffff; stroke: #8b5cf6; }
+  .examples rect { fill: #f0fdfa; stroke: #14b8a6; stroke-dasharray: 4 2; }
+</style>
+
+<g class="purple"><rect x="40" y="40" width="600" height="160" rx="14"/></g>
+<text class="th" x="60" y="68">Always loaded</text>
+<text class="ts" x="60" y="86">2 files · ~600 tokens combined</text>
+
+<g class="card-purple"><rect x="70" y="110" width="280" height="76" rx="8"/></g>
+<text class="th" x="84" y="134">Kernel</text>
+<text class="ts" x="84" y="154">Identity · grounding · time window</text>
+<text class="ts" x="84" y="172">~400 tokens</text>
+
+<g class="card-purple"><rect x="370" y="110" width="270" height="76" rx="8"/></g>
+<text class="th" x="384" y="134">Scope filter — Brazil</text>
+<text class="ts" x="384" y="154">Mirror filter · source bounds</text>
+<text class="ts" x="384" y="172">~200 tokens</text>
+
+<g class="teal"><rect x="40" y="220" width="600" height="520" rx="14"/></g>
+<text class="th" x="60" y="248">Conditional</text>
+<text class="ts" x="60" y="266">9 files · Actor 1.5 picks 1–3 per query</text>
+
+<text class="ts" x="60" y="296" font-weight="500">Macro lens — four expertises</text>
+
+<g class="card"><rect x="60" y="306" width="135" height="76" rx="8"/></g>
+<text class="th" x="74" y="330">Monetary</text>
+<text class="ts" x="74" y="350">Selic · Copom · BCB</text>
+<text class="ts" x="74" y="368">~600 tokens</text>
+
+<g class="card"><rect x="205" y="306" width="135" height="76" rx="8"/></g>
+<text class="th" x="219" y="330">Fiscal</text>
+<text class="ts" x="219" y="350">Primário · dívida · Tesouro</text>
+<text class="ts" x="219" y="368">~900 tokens</text>
+
+<g class="card"><rect x="350" y="306" width="135" height="76" rx="8"/></g>
+<text class="th" x="364" y="330">Eco releases</text>
+<text class="ts" x="364" y="350">PIB · IPCA · calendar</text>
+<text class="ts" x="364" y="368">~850 tokens</text>
+
+<g class="card"><rect x="495" y="306" width="135" height="76" rx="8"/></g>
+<text class="th" x="509" y="330">Eco forecasts</text>
+<text class="ts" x="509" y="350">Focus · house views · revisões</text>
+<text class="ts" x="509" y="368">~900 tokens</text>
+
+<text class="ts" x="60" y="408" font-weight="500">Other expertises</text>
+
+<g class="card"><rect x="60" y="418" width="180" height="76" rx="8"/></g>
+<text class="th" x="74" y="442">Electoral</text>
+<text class="ts" x="74" y="462">Pesquisas · Polymarket</text>
+<text class="ts" x="74" y="480">~700 tokens</text>
+
+<g class="card"><rect x="250" y="418" width="180" height="76" rx="8"/></g>
+<text class="th" x="264" y="442">Political</text>
+<text class="ts" x="264" y="462">STF · Congresso · bastidores</text>
+<text class="ts" x="264" y="480">~800 tokens</text>
+
+<g class="card"><rect x="440" y="418" width="180" height="76" rx="8"/></g>
+<text class="th" x="454" y="442">Markets</text>
+<text class="ts" x="454" y="462">BRL · Ibovespa · DI1</text>
+<text class="ts" x="454" y="480">~500 tokens</text>
+
+<g class="card"><rect x="60" y="510" width="280" height="76" rx="8"/></g>
+<text class="th" x="74" y="534">Source briefing</text>
+<text class="ts" x="74" y="554">Itaú · XP · Goldman · JPMorgan</text>
+<text class="ts" x="74" y="572">~600 tokens</text>
+
+<g class="card"><rect x="350" y="510" width="270" height="76" rx="8"/></g>
+<text class="th" x="364" y="534">Drift detection</text>
+<text class="ts" x="364" y="554">View comparison · revisions</text>
+<text class="ts" x="364" y="572">~500 tokens</text>
+
+<text class="ts" x="60" y="616" font-weight="500">Typical query loads</text>
+
+<g class="examples"><rect x="60" y="626" width="560" height="100" rx="8"/></g>
+<text class="ts" x="76" y="650">"Selic next call given fiscal" → monetary + fiscal</text>
+<text class="ts" x="76" y="670">"IPCA hoje, casas vão revisar?" → eco releases + eco forecasts</text>
+<text class="ts" x="76" y="690">"Goldman PIB Brasil 2026?" → eco forecasts + source briefing</text>
+<text class="ts" x="76" y="710">"Como o Itaú mudou call de Selic?" → monetary + drift detection</text>
+</svg>

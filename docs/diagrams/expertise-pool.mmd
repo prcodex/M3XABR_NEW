@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph always["Always loaded · ~600 tokens"]
+        K[Kernel<br/>~400 tokens]
+        SF[Scope filter — Brazil<br/>~200 tokens]
+    end
+
+    subgraph macro["Macro lens — four expertises"]
+        MON[Monetary<br/>Selic · Copom · BCB<br/>~600 tokens]
+        FIS[Fiscal<br/>Primário · dívida · Tesouro<br/>~900 tokens]
+        ECR[Eco releases<br/>PIB · IPCA · calendar<br/>~850 tokens]
+        ECF[Eco forecasts<br/>Focus · house views<br/>~900 tokens]
+    end
+
+    subgraph other["Other expertises"]
+        ELE[Electoral<br/>~700 tokens]
+        POL[Political<br/>~800 tokens]
+        MKT[Markets<br/>~500 tokens]
+        SRC[Source briefing<br/>~600 tokens]
+        DRI[Drift detection<br/>~500 tokens]
+    end
+
+    classDef purple fill:#ede9fe,stroke:#8b5cf6;
+    classDef teal fill:#ccfbf1,stroke:#14b8a6;
+    class K,SF purple;
+    class MON,FIS,ECR,ECF,ELE,POL,MKT,SRC,DRI teal;

@@ -1,0 +1,22 @@
+flowchart TD
+    Q[User query]
+    A1[Actor 1 — classifier<br/>Haiku · query metadata]
+    A15[Actor 1.5 — router<br/>Haiku · picks expertises]
+    A2[Actor 2 — assembler<br/>File ops · no LLM call]
+    A3[Actor 3 — agent hub<br/>Brazil subset]
+    A4[Actor 4 — retriever<br/>LanceDB · domain=brazil]
+    A5[Actor 5 — synthesizer<br/>Sonnet · pt-BR response]
+    A7[Actor 7 — evaluator<br/>Haiku · PT rubric, regen gate]
+    R[Response + score]
+
+    Q --> A1 --> A15 --> A2
+    A2 --> A3
+    A2 --> A4
+    A3 --> A5
+    A4 --> A5
+    A5 --> A7 --> R
+
+    classDef new fill:#ccfbf1,stroke:#14b8a6,stroke-width:1.5px;
+    classDef base fill:#f3f4f6,stroke:#9ca3af,stroke-width:1px;
+    class A15,A2 new;
+    class Q,A1,A3,A4,A5,A7,R base;
