@@ -21,3 +21,11 @@ repos:
         files: ^(m3xabr_core/.*\.py|expertises/.*\.md|pyproject\.toml|tests/.*\.py|BODY\.md)$
         pass_filenames: false
         stages: [pre-commit]
+
+      - id: check-stack-in-sync
+        name: Every dependency has a doc under docs/stack/
+        entry: python tools/check_stack_in_sync.py
+        language: system
+        files: ^(pyproject\.toml|docs/stack/.*\.md)$
+        pass_filenames: false
+        stages: [pre-commit]

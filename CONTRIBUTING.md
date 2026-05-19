@@ -61,6 +61,29 @@ The agent must:
 - Return `None` cleanly if not applicable (don't raise)
 - Be resilient to network failures (catch internally)
 
+## Adding a new dependency
+
+Every external package the repo depends on must have a registered doc under `docs/stack/`. CI fails the build if you add to `pyproject.toml` without doing this.
+
+1. Add the package to `[project.dependencies]` (or the appropriate extras group) in `pyproject.toml`.
+2. Scaffold the doc — copy the most complete existing one as a template:
+   ```bash
+   cp docs/stack/anthropic.md docs/stack/<new-name>.md
+   $EDITOR docs/stack/<new-name>.md
+   ```
+   Fill in: what it does, where it's used in m3xabr-core, why we picked it, alternatives considered, how to swap it out, links.
+3. Verify the check passes:
+   ```bash
+   python tools/check_stack_in_sync.py
+   ```
+4. Regenerate `BODY.md` so the stack table reflects the new row:
+   ```bash
+   python tools/regenerate_body.py
+   ```
+5. Stage and commit `pyproject.toml`, the new `docs/stack/<new-name>.md`, and the updated `BODY.md` together.
+
+See `docs/stack/README.md` for the doc template and the rationale.
+
 ## Swapping backends
 
 Implement the protocol in `m3xabr_core/backends/`:

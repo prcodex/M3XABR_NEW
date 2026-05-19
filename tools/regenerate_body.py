@@ -76,13 +76,18 @@ def gen_stack() -> str:
     for extras_name, extras_deps in (proj.get("optional-dependencies") or {}).items():
         for d in extras_deps:
             deps.append(f"{d} _(extras: {extras_name})_")
+    project_name = str(proj.get("name", "")).lower().replace("_", "-")
     rows = ["| Package | Role | Doc |", "|---|---|---|"]
     stack_dir = REPO / "docs" / "stack"
     for dep in sorted(deps):
         pkg_name = re.split(r"[<>=!~\s\[]", dep, maxsplit=1)[0].strip()
         if not pkg_name:
             continue
-        doc_path = stack_dir / f"{pkg_name.lower().replace('_', '-')}.md"
+        norm = pkg_name.lower().replace("_", "-")
+        # Skip self-references (the `all` extra refers to m3xabr-core[...] itself)
+        if norm == project_name:
+            continue
+        doc_path = stack_dir / f"{norm}.md"
         if doc_path.exists():
             doc_link = f"[`docs/stack/{doc_path.name}`](./docs/stack/{doc_path.name})"
         else:
