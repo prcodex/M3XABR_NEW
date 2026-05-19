@@ -51,7 +51,45 @@ flowchart TD
 
 ## The expertise pool
 
-![Expertise pool diagram](docs/diagrams/expertise-pool.svg)
+```mermaid
+flowchart TB
+    subgraph always["Always loaded · ~600 tokens"]
+        K[Kernel<br/>~400 tokens]
+        SF[Scope filter — Brazil<br/>~200 tokens]
+    end
+
+    subgraph macro["Macro lens — four expertises"]
+        MON[Monetary<br/>Selic · Copom · BCB<br/>~600 tokens]
+        FIS[Fiscal<br/>Primário · dívida · Tesouro<br/>~900 tokens]
+        ECR[Eco releases<br/>PIB · IPCA · calendar<br/>~850 tokens]
+        ECF[Eco forecasts<br/>Focus · house views<br/>~900 tokens]
+    end
+
+    subgraph other["Other expertises"]
+        ELE[Electoral<br/>~700 tokens]
+        POL[Political<br/>~800 tokens]
+        MKT[Markets<br/>~500 tokens]
+        SRC[Source briefing<br/>~600 tokens]
+        DRI[Drift detection<br/>~500 tokens]
+    end
+
+    classDef purple fill:#ede9fe,stroke:#8b5cf6;
+    classDef teal fill:#ccfbf1,stroke:#14b8a6;
+    class K,SF purple;
+    class MON,FIS,ECR,ECF,ELE,POL,MKT,SRC,DRI teal;
+
+    click K "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/expertises/m3xabr_kernel.md" "Open kernel" _self
+    click SF "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/expertises/scope_filter_brazil.md" "Open scope filter — Brazil" _self
+    click MON "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/expertises/monetary_analysis.md" "Open monetary_analysis.md" _self
+    click FIS "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/expertises/fiscal_analysis.md" "Open fiscal_analysis.md" _self
+    click ECR "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/expertises/economic_releases.md" "Open economic_releases.md" _self
+    click ECF "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/expertises/economic_forecasts.md" "Open economic_forecasts.md" _self
+    click ELE "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/expertises/electoral_analysis.md" "Open electoral_analysis.md" _self
+    click POL "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/expertises/political_analysis.md" "Open political_analysis.md" _self
+    click MKT "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/expertises/market_intelligence.md" "Open market_intelligence.md" _self
+    click SRC "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/expertises/institutional_source_briefing.md" "Open institutional_source_briefing.md" _self
+    click DRI "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/expertises/narrative_drift_detection.md" "Open narrative_drift_detection.md" _self
+```
 
 11 markdown files total. The router picks 1-3 conditional expertises per query, alongside the always-loaded kernel + scope filter. The Brazilian macro split (monetary / fiscal / economic releases / economic forecasts) reflects the actual analytical decomposition of the domain — Selic is monetary; primary deficit and debt are fiscal; IPCA-as-release is economic; house projections are forecasts.
 
@@ -60,8 +98,8 @@ flowchart TD
 ### Install
 
 ```bash
-git clone https://github.com/your-username/m3xabr-core.git
-cd m3xabr-core
+git clone https://github.com/prcodex/M3XABR_NEW.git
+cd M3XABR_NEW
 pip install -e ".[markets,dev]"
 ```
 
