@@ -1,0 +1,24 @@
+# Fails the build if BODY.md is out of sync with the codebase.
+#
+# Catches: someone bypassing the pre-commit hook (--no-verify), or modifying
+# code via the GitHub web editor, or merging a PR that didn't regenerate
+# BODY.md. The local hook + this CI check are belt + suspenders.
+
+name: BODY.md in sync
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  body-in-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check BODY.md is in sync with code
+        run: python tools/regenerate_body.py --check

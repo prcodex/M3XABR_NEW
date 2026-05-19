@@ -1,0 +1,23 @@
+# Pre-commit hooks for m3xabr-core.
+#
+# Install once:   pip install pre-commit && pre-commit install
+# Run on demand:  pre-commit run --all-files
+#
+# Hooks:
+#   - regenerate-body: rewrites AUTOGEN sections of BODY.md from the codebase.
+#                      If BODY.md changed, the commit aborts so you can re-stage
+#                      the updated file. This keeps the self-knowledge layer fresh.
+#
+# Bypass with --no-verify is possible; CI in .github/workflows/body_in_sync.yml
+# re-runs the same check, so the bypass only delays the failure.
+
+repos:
+  - repo: local
+    hooks:
+      - id: regenerate-body
+        name: Regenerate BODY.md AUTOGEN sections
+        entry: python tools/regenerate_body.py
+        language: system
+        files: ^(m3xabr_core/.*\.py|expertises/.*\.md|pyproject\.toml|tests/.*\.py|BODY\.md)$
+        pass_filenames: false
+        stages: [pre-commit]

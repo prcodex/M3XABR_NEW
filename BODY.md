@@ -51,7 +51,15 @@ The full design lives in `docs/SELF_HEALING.md` (TBD — coming after the spec l
 The 7-actor pipeline. Each runs in sequence; see `m3xabr_core/pipeline.py` for the orchestrator.
 
 <!-- AUTOGEN:start:actors -->
-*To be filled by `tools/regenerate_body.py` (commit 2 of the self-knowledge layer).*
+| Actor | File | First-line docstring |
+|---|---|---|
+| `agent_hub` | [`m3xabr_core/actors/agent_hub.py`](./m3xabr_core/actors/agent_hub.py) | Actor 3 — Agent Hub. |
+| `assembler` | [`m3xabr_core/actors/assembler.py`](./m3xabr_core/actors/assembler.py) | Actor 2 — Expertise Assembler. |
+| `classifier` | [`m3xabr_core/actors/classifier.py`](./m3xabr_core/actors/classifier.py) | Actor 1 — Classifier. |
+| `evaluator` | [`m3xabr_core/actors/evaluator.py`](./m3xabr_core/actors/evaluator.py) | Actor 7 — Evaluator. |
+| `retriever` | [`m3xabr_core/actors/retriever.py`](./m3xabr_core/actors/retriever.py) | Actor 4 — Retriever. |
+| `router` | [`m3xabr_core/actors/router.py`](./m3xabr_core/actors/router.py) | Actor 1.5 — Expertise Router. |
+| `synthesizer` | [`m3xabr_core/actors/synthesizer.py`](./m3xabr_core/actors/synthesizer.py) | Actor 5 — Synthesizer. |
 <!-- AUTOGEN:end:actors -->
 
 ---
@@ -61,7 +69,19 @@ The 7-actor pipeline. Each runs in sequence; see `m3xabr_core/pipeline.py` for t
 11 markdown files in `expertises/`. The router picks 1-3 per query; the kernel + scope filter are always loaded.
 
 <!-- AUTOGEN:start:expertises -->
-*To be filled by `tools/regenerate_body.py`.*
+| Expertise | File | Tokens (est) | Triggers |
+|---|---|---|---|
+| economic_forecasts | [`expertises/economic_forecasts.md`](./expertises/economic_forecasts.md) | ? |  |
+| economic_releases | [`expertises/economic_releases.md`](./expertises/economic_releases.md) | ? |  |
+| electoral_analysis | [`expertises/electoral_analysis.md`](./expertises/electoral_analysis.md) | ? |  |
+| fiscal_analysis | [`expertises/fiscal_analysis.md`](./expertises/fiscal_analysis.md) | ? |  |
+| institutional_source_briefing | [`expertises/institutional_source_briefing.md`](./expertises/institutional_source_briefing.md) | ? |  |
+| m3xabr_kernel | [`expertises/m3xabr_kernel.md`](./expertises/m3xabr_kernel.md) | ? |  |
+| market_intelligence | [`expertises/market_intelligence.md`](./expertises/market_intelligence.md) | ? |  |
+| monetary_analysis | [`expertises/monetary_analysis.md`](./expertises/monetary_analysis.md) | ? |  |
+| narrative_drift_detection | [`expertises/narrative_drift_detection.md`](./expertises/narrative_drift_detection.md) | ? |  |
+| political_analysis | [`expertises/political_analysis.md`](./expertises/political_analysis.md) | ? |  |
+| scope_filter_brazil | [`expertises/scope_filter_brazil.md`](./expertises/scope_filter_brazil.md) | ? |  |
 <!-- AUTOGEN:end:expertises -->
 
 See `docs/ROUTING_DECISIONS.md` for the disambiguation logic between adjacent expertises (e.g., monetary vs fiscal vs economic releases).
@@ -73,7 +93,25 @@ See `docs/ROUTING_DECISIONS.md` for the disambiguation logic between adjacent ex
 What the repo depends on at runtime. Each tool has a dedicated doc in `docs/stack/`. **Every new dependency must register a doc there** — see `CONTRIBUTING.md`. CI enforces this via `tools/check_stack_in_sync.py`.
 
 <!-- AUTOGEN:start:stack -->
-*To be filled by `tools/regenerate_body.py`.*
+| Package | Role | Doc |
+|---|---|---|
+| `anthropic>=0.40.0` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `cohere>=5.0.0 _(extras: cohere)_` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `lancedb>=0.13.0` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `m3xabr-core[openai,cohere,markets,dev] _(extras: all)_` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `mypy>=1.10 _(extras: dev)_` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `openai>=1.30.0 _(extras: openai)_` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `pyarrow>=15.0.0` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `pydantic>=2.5.0` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `pytest-asyncio>=0.23 _(extras: dev)_` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `pytest>=8.0 _(extras: dev)_` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `python-dateutil>=2.8` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `pyyaml>=6.0` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `rich>=13.0` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `ruff>=0.5 _(extras: dev)_` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `typer>=0.12.0` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `voyageai>=0.3.0` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
+| `yfinance>=0.2.40 _(extras: markets)_` | _(see doc)_ | **MISSING — register via `docs/stack/`** |
 <!-- AUTOGEN:end:stack -->
 
 ---
@@ -81,7 +119,11 @@ What the repo depends on at runtime. Each tool has a dedicated doc in `docs/stac
 ## Environment variables
 
 <!-- AUTOGEN:start:env_vars -->
-*To be filled by `tools/regenerate_body.py` (grep'd from `os.getenv` / `os.environ.get` usages).*
+| Variable | First location |
+|---|---|
+| `ANTHROPIC_API_KEY` | `m3xabr_core/cli.py` |
+| `OPENAI_API_KEY` | `m3xabr_core/backends/embeddings.py` |
+| `VOYAGE_API_KEY` | `m3xabr_core/cli.py` |
 <!-- AUTOGEN:end:env_vars -->
 
 ---
@@ -89,7 +131,13 @@ What the repo depends on at runtime. Each tool has a dedicated doc in `docs/stac
 ## Test inventory
 
 <!-- AUTOGEN:start:tests -->
-*To be filled by `tools/regenerate_body.py`.*
+| File | Test count | Tests |
+|---|---|---|
+| [`tests/test_assembler.py`](./tests/test_assembler.py) | 7 | `test_assembler_loads_required_files`, `test_assembler_strips_frontmatter`, `test_assembler_token_count_typical_query`, … (+4 more) |
+| [`tests/test_body_in_sync.py`](./tests/test_body_in_sync.py) | 1 | `test_body_md_in_sync_with_code` |
+| [`tests/test_pipeline.py`](./tests/test_pipeline.py) | 2 | `test_pipeline_runs_end_to_end`, `test_pipeline_token_estimates` |
+| [`tests/test_router.py`](./tests/test_router.py) | 7 | `test_router_parses_clean_json`, `test_router_parses_fenced_json`, `test_router_parses_json_with_preamble`, … (+4 more) |
+| **Total** | **17** | |
 <!-- AUTOGEN:end:tests -->
 
 ---
@@ -99,7 +147,16 @@ What the repo depends on at runtime. Each tool has a dedicated doc in `docs/stac
 What `from m3xabr_core import ...` exposes. Treat as the stable contract. Internal modules can move without warning.
 
 <!-- AUTOGEN:start:public_api -->
-*To be filled by `tools/regenerate_body.py`.*
+| Symbol |
+|---|
+| `Pipeline` |
+| `ClassifierOutput` |
+| `RoutingDecision` |
+| `AgentContext` |
+| `RetrievedDoc` |
+| `SynthesizerInput` |
+| `EvaluationResult` |
+| `PipelineResult` |
 <!-- AUTOGEN:end:public_api -->
 
 ---
@@ -107,7 +164,67 @@ What `from m3xabr_core import ...` exposes. Treat as the stable contract. Intern
 ## File tree (depth 2)
 
 <!-- AUTOGEN:start:tree -->
-*To be filled by `tools/regenerate_body.py`.*
+```
+AGENTS.md
+ARCHITECTURE.md
+BODY.md
+CLAUDE.md
+CONTRIBUTING.md
+LESSONS.md
+LICENSE
+README.md
+config/
+  classifier_prompt.md
+  evaluator_prompt.md
+  retrieval_scoring.yaml
+  router_prompt.md
+docs/
+  ROUTING_DECISIONS.md
+  diagrams/
+examples/
+  README.md
+  expected_outputs/
+  query_bridge.txt
+  query_drift.txt
+  query_electoral.txt
+  query_fiscal.txt
+  sample_corpus/
+expertises/
+  economic_forecasts.md
+  economic_releases.md
+  electoral_analysis.md
+  fiscal_analysis.md
+  institutional_source_briefing.md
+  m3xabr_kernel.md
+  market_intelligence.md
+  monetary_analysis.md
+  narrative_drift_detection.md
+  political_analysis.md
+  scope_filter_brazil.md
+m3xabr_core/
+  __init__.py
+  actors/
+  backends/
+  cli.py
+  pipeline.py
+  schemas.py
+m3xabr_core.egg-info/
+  PKG-INFO
+  SOURCES.txt
+  dependency_links.txt
+  entry_points.txt
+  requires.txt
+  top_level.txt
+pyproject.toml
+tests/
+  __init__.py
+  test_assembler.py
+  test_body_in_sync.py
+  test_pipeline.py
+  test_router.py
+tools/
+  regenerate_body.py
+```
 <!-- AUTOGEN:end:tree -->
 
 ---
@@ -115,7 +232,9 @@ What `from m3xabr_core import ...` exposes. Treat as the stable contract. Intern
 ## Meta
 
 <!-- AUTOGEN:start:meta -->
-*Last regenerated by `tools/regenerate_body.py` — timestamp + SHA inserted on commit 2.*
+- **Last regenerated:** 2026-05-19 13:22 UTC
+- **Commit:** `2ed3b1f653`
+- **Generated by:** `tools/regenerate_body.py`
 <!-- AUTOGEN:end:meta -->
 
 ---
