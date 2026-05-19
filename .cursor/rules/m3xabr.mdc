@@ -1,0 +1,30 @@
+---
+description: m3xabr-core orientation — point at BODY.md as the source of truth
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+# Cursor rules for m3xabr-core
+
+**Authoritative spec:** [BODY.md](mdc:BODY.md). Read it first.
+
+**Coding lessons earned:** [LESSONS.md](mdc:LESSONS.md). Don't repeat documented mistakes.
+
+**External tools registered:** [docs/stack/README.md](mdc:docs/stack/README.md). Every dependency has a doc; CI fails if a new one is added without one.
+
+**Cross-tool convention:** [AGENTS.md](mdc:AGENTS.md).
+
+## Hard rules
+
+- 7-actor pipeline is the architectural contract. Don't merge or reorder actors.
+- Vendor SDK imports (anthropic, voyageai, lancedb) stay in `m3xabr_core/backends/` only.
+- AUTOGEN blocks in BODY.md are off-limits to hand-edits — run `python tools/regenerate_body.py` to refresh.
+- Every new dependency requires a `docs/stack/<name>.md` page. CI checks.
+- Public API surface is `m3xabr_core/__init__.py` exports — don't break without a CHANGELOG entry.
+
+## Before committing
+
+Run: `python tools/regenerate_body.py && python tools/check_stack_in_sync.py && pytest tests/`
+
+The pre-commit hook automates this; the CI workflow re-runs it on push.
