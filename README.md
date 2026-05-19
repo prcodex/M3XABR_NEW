@@ -216,6 +216,84 @@ Long version in [ARCHITECTURE.md](ARCHITECTURE.md). Short version:
 
 The architectural bet: a router-driven dynamic composition is a strict improvement on a static system prompt for any agent with more than one analytical mode. Validate by A/B against monolithic on the same corpus; the evaluator (Actor 7) scores both and the comparison is empirical.
 
+## Self-knowledge layer
+
+Everything above describes how the **agent** works. This section describes how the **repo** stays coherent — a body-of-knowledge layer that lets coding tools (Claude Code, Cursor, GitHub Copilot, Aider) edit safely without first paging in 3K lines.
+
+The intuition: a small, accurate, auto-maintained map beats a sprawling, eventually-stale wiki. When BODY.md drifts from the code, CI fails the build.
+
+### The loop
+
+```mermaid
+flowchart LR
+    DEV[Developer / AI coding tool<br/>edits a file]
+    HOOK[Pre-commit hook<br/>regenerate_body.py]
+    BODY[BODY.md<br/>updated AUTOGEN sections]
+    CI[CI · body_in_sync<br/>+ stack_in_sync]
+    PR[PR merges]
+    TOOL[Next coding agent reads<br/>BODY.md as ground truth]
+
+    DEV --> HOOK --> BODY --> CI --> PR --> TOOL
+    TOOL -. starts a new edit .-> DEV
+
+    classDef teal fill:#ccfbf1,stroke:#14b8a6,stroke-width:1.5px;
+    classDef purple fill:#ede9fe,stroke:#8b5cf6;
+    class HOOK,CI teal;
+    class BODY,TOOL purple;
+
+    click HOOK "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/tools/regenerate_body.py" "regenerate_body.py" _self
+    click BODY "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/BODY.md" "BODY.md" _self
+    click CI "https://github.com/prcodex/M3XABR_NEW/blob/HEAD/.github/workflows/body_in_sync.yml" "body_in_sync workflow" _self
+```
+
+The loop is self-closing: every change to actors, expertises, dependencies, tests, or the public API forces a BODY.md regeneration; CI re-runs the same check; the resulting BODY.md is what the next coding agent reads before its first edit.
+
+### The four pieces
+
+| File | What it is | Who maintains it |
+|---|---|---|
+| [`BODY.md`](./BODY.md) | Live infrastructure map — actor list, expertise inventory, dependency table, env vars, test inventory, public API surface, file tree. The body of the system. | Auto (sections between `<!-- AUTOGEN -->` markers) + hand-written invariants at the top |
+| [`AGENTS.md`](./AGENTS.md) | Cross-tool entry point — the file any AI coding tool reads first to find BODY.md, LESSONS.md, docs/stack/ | Hand-written |
+| [`LESSONS.md`](./LESSONS.md) | Append-only log of coding lessons learned (the *why* behind structural choices: vendor SDK isolation, router schema contract, Mermaid-over-SVG for clickability, etc.) | Hand-written, by humans or coding agents after a fix |
+| [`docs/stack/*.md`](./docs/stack/) | One doc per external dependency — what it does, why we picked it, alternatives, how to swap it out. CI fails if a `pyproject.toml` dep is missing its doc. | Hand-written; existence enforced |
+
+### Per-tool entry points
+
+The same self-knowledge is surfaced to each coding tool through the file *it* looks for:
+
+- [`AGENTS.md`](./AGENTS.md) — the open convention (Aider, Cline, generic agents)
+- [`CLAUDE.md`](./CLAUDE.md) — Claude Code
+- [`.cursor/rules/m3xabr.mdc`](./.cursor/rules/m3xabr.mdc) — Cursor 0.46+
+- [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) — GitHub Copilot Workspace
+
+All four are thin pointers that say the same thing: **read BODY.md first, then LESSONS.md, then docs/stack/.** This is intentional — one source of truth, four well-known doorways.
+
+### Enforcement, three layers deep
+
+1. **Pre-commit hook** (`.pre-commit-config.yaml`) — regenerates BODY.md and runs the stack check on every commit. Local fast feedback.
+2. **CI workflows** (`.github/workflows/body_in_sync.yml`, `stack_in_sync.yml`) — re-run on push/PR. Catches `--no-verify` bypass and web-editor commits.
+3. **pytest mirrors** (`tests/test_body_in_sync.py`, `tests/test_stack_in_sync.py`) — fail the local test suite if either drifts. Catches it before the developer pushes.
+
+The redundancy is deliberate: pre-commit is fast but bypassable, CI is unbypassable but slow, pytest catches it during normal `pytest tests/` runs. Belt + suspenders + airbag.
+
+### Self-healing — what's next
+
+BODY.md is the **spec layer** that future self-healing logic builds on. The roadmap (see the table in `BODY.md` itself):
+
+- ✅ **Spec** — BODY.md declares what "working" looks like.
+- 🟡 **Drift detector** — `tests/test_body_in_sync.py` catches doc-vs-code drift at CI time. A future `validate_runtime.py` will check live config against the spec at pipeline boot.
+- 🔮 **Auto-heal actor** — Future Actor 8 that detects missing expertise files, malformed router output, or env-var gaps and fails with repair instructions rather than cryptic stack traces.
+
+### Coding lessons
+
+[`LESSONS.md`](./LESSONS.md) is the project's memory for *structural* mistakes — patterns we've burned hours on, captured so the next agent (human or AI) doesn't repeat them. Examples already in:
+
+- *Mermaid `click` directives only fire on inline code blocks, not `<img>` SVG embeds* — the lesson behind the clickable diagrams above.
+- *Vendor SDKs live inside `backends/` only* — preserves the swap surface.
+- *Router output schema is a contract, not a suggestion* — downstream actors hard-depend on `{expertises, confidence, rationale}`.
+
+Add a new lesson when you fix something whose root cause was a structural choice you wouldn't have known to look for. Skip it for ordinary bugs.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
